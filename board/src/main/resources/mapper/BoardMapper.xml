@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.board.mapper.BoardMapper">
+	<select id="selectBoardList" resultType="BoardDto">
+	/*전체 게시글 조회*/
+		SELECT
+			board_idx AS boardIdx,
+			title,
+			hit_cnt AS hitCnt,
+			created_datetime AS createdDatetime
+		FROM
+			t_board
+		WHERE
+			 deleted_yn = 'N'
+		ORDER BY  board_idx DESC;
+	</select>
+	
+	<insert id="insertBoard" parameterType="BoardDto">
+	/*하나의 게시글 등록*/
+		INSERT INTO 
+			t_board
+			(	title,
+				`contents`,
+				created_datetime,
+				creator_id
+			)	
+			VALUES
+			(	#{title},
+				#{contents},
+				NOW(),
+				'id001'
+			);
+	</insert>
+	
+	<select id="openBoardDeatail" parameterType="int" resultType="BoardDto">
+	/*하나의 게시글 상세 조회*/	
+		SELECT
+			t.board_idx AS boardIdx,
+			t.title,
+			t.`contents`,
+			t.hit_cnt AS hitCnt,
+			t.created_datetime AS createdDatetime,
+			t.creator_id AS creatorId
+		FROM
+			t_board AS t
+		WHERE
+			t.board_idx = #{boardIdx};
+	
+	</select>
+</mapper>

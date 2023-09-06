@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>board</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <div class="container">
+    	<h2>게시글 목록</h2>
+    	<table class="board_list">
+	        <colgroup>
+	            <col width="15%"/>
+	            <col width="*"/>
+	            <col width="15%"/>
+	            <col width="20%"/>
+	        </colgroup>
+	        <thead>
+	            <tr>
+	                <th scope="col">글번호</th>
+	                <th scope="col">제목</th>
+	                <th scope="col">조회수</th>
+	                <th scope="col">작성일</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	<tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
+	        		<td th:text="${list.boardIdx}"></td>
+	        		<!--<a href="받을 서버 주소?이름=값">  -->
+	        		<!--th:attrappend="추가하려는 속성=추가하려는 속성의 값" 띄어쓰기 하면 띄어쓰기도 인식해서 원하는 속성 "뒤"에 붙여줌-->
+	        		<!--앞쪽에 붙이고 싶으면 attrpreppend  -->
+	        		<!--그래서 여기선 href="받는서버 주소?boardIdx=${list.boardIdx}" 이 경로로 전송 됨 -->
+	        		<td class="title"><a href="/board/openBoardDeatail?boardIdx="
+	        		th:attrappend="href=${list.boardIdx}" th:text="${list.title}"></a></td>
+	        		<td th:text="${list.hitCnt}"></td>
+	        		<td th:text="${#temporals.format(list.createdDatetime,'yyyy-MM-dd HH:mm:ss')}"></td>
+	        	</tr> 
+	        	<tr th:unless="${#lists.size(list)} > 0">
+	        		<td colspan="4">조회된 결과가 없습니다.</td>
+	        	</tr>
+	        </tbody>
+	    </table>
+	    <a href="/board/openBoardWrite" class="btn">글 쓰기</a>
+    </div>
+</body>
+</html>
