@@ -48,4 +48,37 @@
 			t.board_idx = #{boardIdx};
 	
 	</select>
+	
+	<update id="updateHitCnt" parameterType="BoardDto">
+	/*조회수 증가*/
+		UPDATE
+		 	t_board AS t
+		SET
+			t.hit_cnt = t.hit_cnt+1
+		WHERE
+			t.board_idx=#{boardIdx};
+	</update>
+	
+	<update id="updateBoard" parameterType="BoardDto">
+	/*하나의 게시글 수정*/
+		UPDATE
+		 	t_board AS t
+		SET
+			t.title = #{title},
+			t.`contents`=#{contents},
+			t.updated_datetime=NOW(),
+			t.updater_id = 'id001'
+		WHERE
+			t.board_idx=#{boardIdx};
+	</update>
+
+	<update id="deleteBoard" parameterType="int">
+	/*하나의 게시글 삭제(조회 내역에서만 보이지 않음) */
+		UPDATE
+		 	t_board AS t
+		SET
+			t.deleted_yn = 'Y'
+		WHERE
+			t.board_idx=#{boardIdx};
+	</update>
 </mapper>
