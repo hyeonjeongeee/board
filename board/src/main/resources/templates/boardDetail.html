@@ -6,7 +6,6 @@
 	<link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
-	<div class="container">
 		<h2>게시글 상세 화면</h2>
 	    <form id="frm" method="post">
 	    	<table class="board_detail">
@@ -41,6 +40,41 @@
 					</tr>
 				</tbody>
 			</table>
-		
+			<input type="hidden" name="boardIdx" th:value="${board.boardIdx}">
+			<!--Html에선 put,delete 메서드를 지원하지 않기 때문에 input태그를 이용해야함  -->
+			<input type="hidden" id="method" name="_method">
+		</form>
+		<!-- 버튼 태그는 href 속성 사용 못하고 스크립트에서 클릭시 href로 경로 연결 -->
+		<button type="button" id="list">목록</button>
+		<button type="button" id="edit">수정</button>
+		<button type="button" id="delete">삭제</button>
+		<!-- th경로 연결은 @로 처리 -->
+		<script th:src="@{/js/jquery-3.7.0.js}"></script>
+		<script type="text/javascript">
+		//목록 버튼 클릭시 이벤트
+			$("#list").click(function(e){
+				location.href="boardList";
+			})
+			
+		//수정 버튼 클릭시 이벤트
+			$("#edit").click(function(e){
+				let frm = $("#frm");
+				//put방식으로 전송
+				$("#method").val("put");
+				frm.attr("action","/board/updateBoard");
+				frm.submit();
+			})
+		//삭제 버튼 클릭시 이벤트
+			$("#delete").click(function(e){
+				let frm = $("#frm");
+				$("#method").val("delete");
+				frm.attr("action","/board/deleteBoard");
+				let msg = confirm("삭제 하시겠습니까?");
+				if(msg){
+					alert("삭제가 완료 되었습니다.");
+					frm.submit();
+				}else alert("취소 되었습니다.")
+			})
+		</script>			
 </body>
 </html>

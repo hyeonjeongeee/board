@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import com.test.board.dto.BoardDto;
 import com.test.board.service.BoardService;
@@ -30,7 +32,7 @@ public class BoardController {
 		return"boardList";
 	}
 	
-	//하나의 게시글 등록	화면 
+	//하나의 게시글  등록 화면 조회 
 	@GetMapping("/openBoardWrite")
 	public String openBoardWrite() {
 		return"boardWrite";
@@ -41,11 +43,24 @@ public class BoardController {
 		boardService.insertBoard(board);
 		return"redirect:boardList";
 	}
+	//하나의 게시글 상세항목 조회 화면 
 	@GetMapping("/openBoardDeatail")
-	public String openBoardDeatail(@RequestParam int boardIdx, Model model) {
+	public String openBoardDeatail(int boardIdx, Model model) {
 		BoardDto board = boardService.openBoardDeatail(boardIdx);
 		log.info("boarddetail담긴 값:{}", board);
 		model.addAttribute("board",board);
 		return "boardDetail";
+	}
+	//하나의 게시글 수정 
+	@PutMapping("/updateBoard")
+	public String updateBoard(BoardDto board) {
+		boardService.updateBoard(board);
+		return "redirect:boardList";
+	}
+	//하나의 게시글 삭제
+	@DeleteMapping("/deleteBoard")
+	public String deleteBoard(int boardIdx) {
+		boardService.deleteBoard(boardIdx);
+		return "redirect:boardList";
 	}
 }	

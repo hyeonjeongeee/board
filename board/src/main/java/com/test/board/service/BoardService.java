@@ -25,8 +25,18 @@ public class BoardService {
 		log.info("board에 담기는 값:{}",board);
 		boardMapper.insertBoard(board);
 	}
+	//하나의 게시글 상세 조회
 	public BoardDto openBoardDeatail(int boardIdx){
+		boardMapper.updateHitCnt(boardIdx);
 		BoardDto boardDetail = boardMapper.openBoardDeatail(boardIdx);
 		return boardDetail;
+	}
+	//하나의 게시글 수정
+	public void updateBoard(BoardDto board) {
+		boardMapper.updateBoard(board);
+	}
+	//하나의 게시글 삭제
+	public void deleteBoard(int boardIdx) {
+		boardMapper.deleteBoard(boardIdx);
 	}
 }
